@@ -14,7 +14,7 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 
 
 def pjson(data: dict) -> None:
-    print(json.dumps(data, indent=2, ensure_ascii=False))
+    json.dumps(data, indent=2, ensure_ascii=False)
 
 
 def object_to_dict(data: Dict, channel_name):

@@ -54,10 +54,48 @@ class Channel:
         return cls.__youtube_api
 
     def to_json(self, channel_name):
+        """ Записывает информацию в файл.json """
         with open(channel_name, 'w', encoding='utf-8') as file:
             object_to_dict(self._channel, file)
+
+
+    '''  Magic Methods  '''
+
+    def __str__(self):
+        """ Выводит строку канал-ссылка """
+        return f'{self.title} - {self.url}'
+
+    def __add__(self, other):
+        """ Складывает количество подписчиков в двух каналах """
+        return int(self.get_amount_subs) + int(other.get_amount_subs)
+
+    def __sub__(self, other):
+        """ Вычитает количество подписчиков в двух каналах """
+        return int(self.get_amount_subs) - int(other.get_amount_subs)
+
+    def __gt__(self, other):
+        """ Проверяет больше ли количество подписчиков в первом канале """
+        return int(self.get_amount_subs) > int(other.get_amount_subs)
+
+    def __ge__(self, other):
+        """ Проверяет больше-равно ли количество подписчиков в первом канале """
+        return int(self.get_amount_subs) >= int(other.get_amount_subs)
+
+    ''' Стоит заметить что ниже записанные функции можно не писать, так как те что выше работают и в обратную сторону'''
+
+    def __lt__(self, other):
+        return int(self.get_amount_subs) < int(other.get_amount_subs)
+
+    def __le__(self, other):
+        return int(self.get_amount_subs) <= int(other.get_amount_subs)
+
+    def __eq__(self, other):
+        return int(self.get_amount_subs) == int(other.get_amount_subs)
+
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
         pjson(self._channel)
         return self._channel
+
+
