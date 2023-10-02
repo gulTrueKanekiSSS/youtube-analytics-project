@@ -18,6 +18,6 @@ def pjson(data: dict) -> None:
 
 
 def object_to_dict(data: Dict, channel_name):
+    print(data)
     json.dump(data, channel_name, indent=2, ensure_ascii=False)
-
-
+    return data
