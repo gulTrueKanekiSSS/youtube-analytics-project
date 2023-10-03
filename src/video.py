@@ -1,4 +1,4 @@
-from src.channel import Channel
+
 from src.imp import pjson, youtube, object_to_dict
 
 
@@ -17,15 +17,18 @@ class Video:
     def __get_statistics(self):
         return self.__get_items().get("statistics")
 
+    @property
     def title(self):
         return self.__get_snippet().get("title")
 
     def url(self):
         return f"https://www.youtube.com/channel/{self.get_video_id}"
 
+    @property
     def amount_views(self):
         return self.__get_statistics().get("viewCount")
 
+    @property
     def likes(self):
         return self.__get_statistics().get("likeCount")
 
@@ -51,6 +54,7 @@ class Video:
 
     def __str__(self):
         return f"{self.title()}"
+
 
 class PLVideo(Video):
     def __init__(self, video_id, playlist_id):
