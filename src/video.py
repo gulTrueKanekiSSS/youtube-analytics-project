@@ -8,6 +8,10 @@ class Video:
     def __init__(self, video_id):
         self.__video_id = video_id
         self._video = self.get_service().videos().list(id=self.get_video_id, part='snippet,statistics').execute()
+        self.title = self.__get_snippet().get("title")
+        self.url = f"https://www.youtube.com/channel/{self.get_video_id}"
+        self.amount_views = self.__get_statistics().get("viewCount")
+        self.likes = self.__get_statistics().get("likeCount")
 
     def __get_items(self):
         return self.print_info().get("items")[0]
@@ -16,21 +20,6 @@ class Video:
 
     def __get_statistics(self):
         return self.__get_items().get("statistics")
-
-    @property
-    def title(self):
-        return self.__get_snippet().get("title")
-
-    def url(self):
-        return f"https://www.youtube.com/channel/{self.get_video_id}"
-
-    @property
-    def amount_views(self):
-        return self.__get_statistics().get("viewCount")
-
-    @property
-    def likes(self):
-        return self.__get_statistics().get("likeCount")
 
     @property
     def get_video_id(self):
@@ -47,13 +36,13 @@ class Video:
         pjson(self._video)
         return self._video
 
-    def to_json(self, channel_name):
+    def to_json(self):
         """ Записывает информацию в файл.json """
-        with open(channel_name, 'w', encoding='utf-8') as file:
+        with open(self.title, 'w', encoding='utf-8') as file:
             object_to_dict(self._video, file)
 
     def __str__(self):
-        return f"{self.title()}"
+        return f"{self.title}"
 
 
 class PLVideo(Video):
@@ -66,4 +55,4 @@ class PLVideo(Video):
         return self.__playlist_id
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.get_video_id}, {self.get_playlist_id}, {self.title()}, {self.url()}, {self.amount_views()}, {self.likes()}"
+        return f"{self.__class__.__name__}({self.get_video_id}, {self.get_playlist_id}, {self.title}, {self.url}, {self.amount_views}, {self.likes}"
