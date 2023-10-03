@@ -9,7 +9,7 @@ class Video:
         self.__video_id = video_id
         self._video = self.get_service().videos().list(id=self.get_video_id, part='snippet,statistics').execute()
         self.title = self.__get_snippet().get("title")
-        self.url = f"https://www.youtube.com/channel/{self.get_video_id}"
+        self.url = f"https://www.youtube.com/video/{self.get_video_id}"
         self.amount_views = self.__get_statistics().get("viewCount")
         self.likes = self.__get_statistics().get("likeCount")
 
