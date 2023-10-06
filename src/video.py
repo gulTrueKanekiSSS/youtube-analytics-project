@@ -2,12 +2,13 @@
 from src.imp import pjson, youtube, object_to_dict
 
 
+
 class Video:
     __youtube_api = youtube
 
     def __init__(self, video_id):
         self.__video_id = video_id
-        self._video = self.get_service().videos().list(id=self.get_video_id, part='snippet,statistics').execute()
+        self._video = self.get_service().videos().list(id=self.get_video_id, part='snippet,statistics,contentDetails').execute()
         self.title = self.__get_snippet().get("title")
         self.url = f"https://www.youtube.com/video/{self.get_video_id}"
         self.amount_views = self.__get_statistics().get("viewCount")
@@ -20,6 +21,10 @@ class Video:
 
     def __get_statistics(self):
         return self.__get_items().get("statistics")
+
+    def get_info(self):
+        return self.print_info().get("items")
+
 
     @property
     def get_video_id(self):
