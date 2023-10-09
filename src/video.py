@@ -15,12 +15,22 @@ class Video:
         self.likes = self.__get_statistics().get("likeCount")
 
     def __get_items(self):
-        return self.print_info().get("items")[0]
+        try:
+            return self.print_info().get("items")[0]
+        except IndexError:
+            return None
+
     def __get_snippet(self):
-        return self.__get_items().get("snippet")
+        try:
+            return self.__get_items().get("snippet")
+        except AttributeError:
+            return {"title": None}
 
     def __get_statistics(self):
-        return self.__get_items().get("statistics")
+        try:
+            return self.__get_items().get("statistics")
+        except AttributeError:
+            return {'viewCount': None}
 
     def get_info(self):
         return self.print_info().get("items")
