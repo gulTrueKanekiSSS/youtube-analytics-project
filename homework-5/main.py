@@ -11,7 +11,8 @@ if __name__ == '__main__':
     # print(pl.url)
     # print(pl.get_videos_id())
     assert pl.url == "https://www.youtube.com/playlist?list=PLv_zOGKKxVpj-n2qLkEM2Hj96LO6uqgQw"
-    duration = pl.total_duration
+    duration = pl.parse_seconds()
+    print(str(duration))
     assert str(duration) == "1:49:52"
     assert isinstance(duration, datetime.timedelta)
     assert duration.total_second() == 6592.0

@@ -14,7 +14,7 @@ class PlayList:
         self._playlist = self.get_service().playlists().list(id=self.playlist_id, part='snippet').execute()
         self.title = self.__get_snippet_pl().get("title")
         self.url = f"https://www.youtube.com/playlist?list={self.playlist_id}"
-        self.total_duration = self.total_duration()
+        self.durations = self.durations()
 
     def __get_items(self):
         return self.print_info().get("items")[0]
@@ -41,12 +41,15 @@ class PlayList:
             durations.append(object.get_info()[0].get("contentDetails").get("duration"))
         return durations
 
-    def total_duration(self):
+    def durations(self):
         import isodate
         res = []
         for duration in self.get_durations():
             res.append(isodate.parse_duration(duration).total_seconds())
-        sec = sum(res)
+        return res
+
+    def parse_seconds(self):
+        sec = sum(self.durations)
         sec = sec % (24 * 3600)
         hour = sec // 3600
         sec %= 3600
@@ -76,7 +79,7 @@ class PlayList:
         return self._playlist
 
     def __str__(self):
-        return f"{self.total_duration}"
+        return f"{self.parse_hours_min_sec()}"
 
     def show_best_video(self):
         res = {}
